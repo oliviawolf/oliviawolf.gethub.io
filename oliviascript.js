@@ -12,7 +12,7 @@
         var window;
       
 
-/**
+        /**
         * Creates initial map and sets up main functionality. This method is a sort 
         * of main function that calls smaller methods.
         *
@@ -206,10 +206,11 @@
             //zoom map into city when bounds are changed
             google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
                 map.setZoom(13);
-            });
+            
             
             //update restaurant icons when a new search is performed  
             createIcons();
+                });
         });
     }
 
