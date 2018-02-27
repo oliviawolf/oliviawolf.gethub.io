@@ -11,6 +11,27 @@
         var document;
         var window;
       
+
+/**
+        * Creates initial map and sets up main functionality. This method is a sort 
+        * of main function that calls smaller methods.
+        *
+        */	   
+
+    function initMap() {
+        //create map centered in tel aviv
+         map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 32.08, lng: 34.8},
+          zoom: 14,
+          mapTypeId: 'roadmap'
+        });
+
+       //create the restaurant icons
+         createIcons();
+        
+       //call method that will create a search bar and listen for new input
+        searchBar();
+      }
     window.onload = initMap;
     /** 
      * Searches for locations in the city that is displayed on the map.
@@ -192,25 +213,6 @@
         });
     }
 
-        /**
-        * Creates initial map and sets up main functionality. This method is a sort 
-        * of main function that calls smaller methods.
-        *
-        */	   
-
-    function initMap() {
-        //create map centered in tel aviv
-         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 32.08, lng: 34.8},
-          zoom: 14,
-          mapTypeId: 'roadmap'
-        });
-
-       //create the restaurant icons
-         createIcons();
         
-       //call method that will create a search bar and listen for new input
-        searchBar();
-      }
       
       
