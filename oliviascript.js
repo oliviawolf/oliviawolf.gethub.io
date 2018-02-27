@@ -9,7 +9,9 @@
       var map;
         var google;
         var document;
+        var window;
       
+    window.onload = initMap;
     /** 
      * Searches for locations in the city that is displayed on the map.
      * 
