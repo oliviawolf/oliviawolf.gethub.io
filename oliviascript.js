@@ -7,21 +7,23 @@
 	 */
 
       var map;
+        var google;
+        var document;
       
     /** 
      * Searches for locations in the city that is displayed on the map.
      * 
      */
       function createIcons() {
-    	  //initialize variable to define nearbySearch
-    	  var request = {
+          //initialize variable to define nearbySearch
+            var request = {
                   location: map.getCenter(),
                   radius: 5000,
                   type: ['restaurant']    
           };
-    	  
-    	  //call google's nearbySearch function to locate restaurants in city
-         var service = new google.maps.places.PlacesService(map);
+          
+          //call google's nearbySearch function to locate restaurants in city
+          var service = new google.maps.places.PlacesService(map);
          service.nearbySearch(request, callback1);
          
       }
@@ -35,23 +37,21 @@
 
        */
        function callback1(results, status) {
-    	      if (status === google.maps.places.PlacesServiceStatus.OK) {
-    	    	//examine every element of results array
-    	        for (var i = 0; i < results.length; i++) {
-    	        	//create a variable containing the place id of a location
-    	        	var requestdeets = {
+           if (status === google.maps.places.PlacesServiceStatus.OK) {
+               //examine every element of results array
+               for (var i = 0; i < results.length; i++) {
+                   //create a variable containing the place id of a location
+                   var requestdeets = {
                             placeId: results[i].place_id
                     };
-                    
-    	        	/*get additional details about a restaurant before creating 
+                   /*get additional details about a restaurant before creating 
     	        	a marker*/
-                    service2 = new google.maps.places.PlacesService(map);
-                    service2.getDetails(requestdeets, callback2);
-    	        }
-    	      }
-    	    }
-    	   
-    	   
+                   var service2 = new google.maps.places.PlacesService(map);
+                   service2.getDetails(requestdeets, callback2);
+               }
+           }
+       }
+
        /**
         * Method that calls createMarker for a individual restaurant if there were
         * no errors in finding details.
@@ -61,58 +61,53 @@
         * @param status
         * 		Contains the status of the request for details.
         */
-    	   function callback2(place, status){
-    		   if (status === google.maps.places.PlacesServiceStatus.OK) {
-    			    createMarker(place);
-    			  }
-    	   };
-    	   
-    	   /**
-    	    * Initializes one marker for a restaurant using a fork and knife icon.
-    	    * @param place
-    	    * 		Object with attributes that are used to create a description 
-    	    * 		of a location.
-    	    */
-    	   
-    	   function createMarker(place){
-    		   
-    		   //set up a unique icon for restaurant markers
-    		   var restaurantIcon = {
-    	                  url: 'rest.png',
-    	                   scaledSize: new google.maps.Size(35, 35)
-    	              };
-    		   
-    	              marker = new google.maps.Marker({
-    	                map: map,
-    	                position: place.geometry.location,
-    	                animation: google.maps.Animation.DROP,
-    	                icon: restaurantIcon
-    	              });
-    	              
-    	            //call method that adds functionality to each icon
-    	            iconFunctionality(place, marker);
-    	   }
-    	   
-    	   
-    	   /**
-    	    * Creates listeners for when a marker is hovered over or clicked on.
-    	    * @param place
-    	    * 		Object with attributes that are used to create a description 
-    	    * 		of a location.
-    	    * @param marker
-    	    * 		The marker that will receive the functionality.
-    	    */
-    	   function iconFunctionality(place, marker){
-    		    //create info window variable
-                var infowindow = new google.maps.InfoWindow();
+    function callback2(place, status){
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            createMarker(place);
+        }
+    }  
+        /**
+        * Initializes one marker for a restaurant using a fork and knife icon.
+        * @param place
+        * 		Object with attributes that are used to create a description 
+        * 		of a location.
+        */
+    function createMarker(place){
+        //set up a unique icon for restaurant markers
+        var restaurantIcon = {
+            url: 'rest.png',
+            scaledSize: new google.maps.Size(35, 35)
+        };
+        var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location,
+            animation: google.maps.Animation.DROP,
+            icon: restaurantIcon
+        });
+        
+        //call method that adds functionality to each icon
+        iconFunctionality(place, marker);
+    }
 
-                //call method that creates a string of html to output to infowindow
-                var infoWContent = getContent(place);
+        /**
+        * Creates listeners for when a marker is hovered over or clicked on.
+        * @param place
+        * 		Object with attributes that are used to create a description 
+        * 		of a location.
+        * @param marker
+        * 		The marker that will receive the functionality.
+        */
+    function iconFunctionality(place, marker){
+        //create info window variable
+        var infowindow = new google.maps.InfoWindow();
+
+        //call method that creates a string of html to output to infowindow
+        var infoWContent = getContent(place);
               
-                //if a marker is clicked, ask user to input email
-                google.maps.event.addListener(marker, 'click', function() {
-                var email = prompt('please enter your email to recieve information about this restaurant');
-                   //window.open('mailto:'+ email + '?subject=\'Restaurant search info\'body='+infoWContent);
+        //if a marker is clicked, ask user to input email
+        google.maps.event.addListener(marker, 'click', function() {
+            var email = prompt('please enter your email to recieve information about this restaurant');
+            //window.open('mailto:'+ email + '?subject=\'Restaurant search info\'body='+infoWContent);
                  });
                
               //if icon is hovered over, display the restaurant details in an infowindow
@@ -125,8 +120,6 @@
                     infowindow.close(map, this);
                   });
            }
-    	   
-    	   
     	   /**
     	    * Creates a string of details about a location to fill in infowindow.
     	    * @param place
@@ -176,10 +169,6 @@
     	          var bounds = new google.maps.LatLngBounds();
     	          //examine search result
     	          places.forEach(function(place) {
-    	            if (!place.geometry) {
-    	              console.log("Returned place contains no geometry");
-    	              return;
-    	            }
 
     	            if (place.geometry.viewport) {
     	              // Only geocodes have viewport.
