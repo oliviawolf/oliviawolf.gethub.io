@@ -32,7 +32,7 @@
        //call method that will create a search bar and listen for new input
         searchBar();
       }
-    window.onload = initMap;
+
     /** 
      * Searches for locations in the city that is displayed on the map.
      * 
