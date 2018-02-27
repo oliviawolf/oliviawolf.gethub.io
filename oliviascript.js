@@ -26,10 +26,9 @@
           mapTypeId: 'roadmap'
         });
 
-       //create the restaurant icons
-         createIcons();
+
         
-       //call method that will create a search bar and listen for new input
+       //call method that will create a search bar and icons and listen for new input
         searchBar();
       }
 
@@ -184,6 +183,7 @@
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function() {
+
         var places = searchBox.getPlaces();
         if (places.length == 0) {
             return;
