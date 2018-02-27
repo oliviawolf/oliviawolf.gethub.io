@@ -120,85 +120,84 @@
                     infowindow.close(map, this);
                   });
            }
-    	   /**
-    	    * Creates a string of details about a location to fill in infowindow.
-    	    * @param place
-    	    * 		Object with attributes that are used to create a description 
-    	    * 		of a location.
-    	    * @returns
-    	    * 		A string containing details about a location and a photo, if 
-    	    * 		available.
-    	    */
-    	   function getContent(place){
-    		   
-    		   //collect data about restaurant and fill into content string
-    		   var content= '<p>'+ place.name +'\n<p><\p>' + place.formatted_address ;
-               content +=  '\n<p><\p>Phone number: '+ place.formatted_phone_number; 
-               content += '\n<p><\p>'+ place.website;
-               content+='\n<p><\p>Rating: '+place.rating ;
+        /**
+        * Creates a string of details about a location to fill in infowindow.
+        * @param place
+        * 		Object with attributes that are used to create a description 
+        * 		of a location.
+        * @returns
+        * 		A string containing details about a location and a photo, if 
+        * 		available.
+        */
+    function getContent(place){
+        //collect data about restaurant and fill into content string
+        var content= '<p>'+ place.name +'\n<p><\p>' + place.formatted_address ;
+        content +=  '\n<p><\p>Phone number: '+ place.formatted_phone_number; 
+        content += '\n<p><\p>'+ place.website;
+        content+='\n<p><\p>Rating: '+place.rating ;
                
-               //check if the getDetails function returned any photos, if so add them to the content
-               if(place.photos.length>0){
-               content+= '\n<p><\p> <img src=\''+ place.photos[0].getUrl({'maxWidth': 250, 'maxHeight': 250}) + '\'<p>';
-               }
-               else{
-             	  content+='<\p>';
-               }
+        //check if the getDetails function returned any photos, if so add them to the content
+        if(place.photos.length>0){
+            content+= '\n<p><\p> <img src=\''+ place.photos[0].getUrl({'maxWidth': 250, 'maxHeight': 250}) + '\'<p>';
+        }
+        else{
+            content+='<\p>';
+        }
                
-               return content;
-    	   }
+        return content;
+    }
       
-    	   /**
-    	    * Sets up the search bar at the top of the page and listens for new
-    	    * input.
-    	    */
-    	   function searchBar(){
-    		   // Create the search box and link it to the UI element.
-    	        var input = document.getElementById('pac-input');
-    	        var searchBox = new google.maps.places.SearchBox(input);
-    	        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    	        
-    	        // Listen for the event fired when the user selects a prediction and retrieve
-    	        // more details for that place.
-    	        searchBox.addListener('places_changed', function() {
-    	          var places = searchBox.getPlaces();
-    	          if (places.length == 0) {
-    	            return;
-    	          }
-    	         
-    	          var bounds = new google.maps.LatLngBounds();
-    	          //examine search result
-    	          places.forEach(function(place) {
+        /**
+        * Sets up the search bar at the top of the page and listens for new
+        * input.
+        */
+    function searchBar(){
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+        if (places.length == 0) {
+            return;
+        }
+            
+            var bounds = new google.maps.LatLngBounds();
+            //examine search result
+            places.forEach(function(place) {
 
-    	            if (place.geometry.viewport) {
-    	              // Only geocodes have viewport.
-    	              bounds.union(place.geometry.viewport);
-    	            } else {
-    	              bounds.extend(place.geometry.location);
-    	            }
-    	          });
-    	     
-    	          //update map location
-    	          map.fitBounds(bounds);
-    	          
-    	          //zoom map into city when bounds are changed
-    	          google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-    	        	  map.setZoom(13);
-    	        	});
-    	        
-    	        //update restaurant icons when a new search is performed  
-    	        createIcons();
-    	        });
-    	   }
-    	
-    /**
-     * Creates initial map and sets up main functionality. This method is a sort 
-     * of main function that calls smaller methods.
-     *
-     */	   
-      function initMap() {
-    	  
-    	  //create map centered in tel aviv
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            
+            //update map location
+            map.fitBounds(bounds);
+            
+            //zoom map into city when bounds are changed
+            google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+                map.setZoom(13);
+            });
+            
+            //update restaurant icons when a new search is performed  
+            createIcons();
+        });
+    }
+
+        /**
+        * Creates initial map and sets up main functionality. This method is a sort 
+        * of main function that calls smaller methods.
+        *
+        */	   
+
+    function initMap() {
+        //create map centered in tel aviv
          map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 32.08, lng: 34.8},
           zoom: 14,
