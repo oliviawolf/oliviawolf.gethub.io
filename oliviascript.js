@@ -128,7 +128,7 @@
         //if a marker is clicked, ask user to input email
         google.maps.event.addListener(marker, 'click', function() {
             var email = window.prompt('please enter your email to recieve information about this restaurant');
-            //window.open('mailto:'+ email + '?subject=\'Restaurant search info\'body='+infoWContent);
+            window.open('mailto:'+ email + '?subject=\'Restaurant search info\'body='+infoWContent);
             
             Email.send("oliviawolf6@gmail.com",
                        email,
