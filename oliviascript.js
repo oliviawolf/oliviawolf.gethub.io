@@ -129,15 +129,16 @@
         google.maps.event.addListener(marker, 'click', function() {
             var email = window.prompt('please enter your email to recieve information about this restaurant');
             window.location.href='mailto:'+ email + '?subject='+encodeURIComponent('Restaurant search info')+'&\'body='+encodeURIComponent(infoWContent);
-            
-            Email.send("oliviawolf6@gmail.com",
-                       email,
-                       "Details about"+place.name,
-                       infoWContent,
-                       "smtp.gmail.com",
-                       "oliviawolf6@gmail.com",
-                       "livi1998");
-                 });
+//            
+//            //attempt to use smtpJS function to send email
+//            Email.send("oliviawolf6@gmail.com",
+//                       email,
+//                       "Details about"+place.name,
+//                       infoWContent,
+//                       "smtp.gmail.com",
+//                       "oliviawolf6@gmail.com",
+//                       "livi1998");
+//                 });
                
               //if icon is hovered over, display the restaurant details in an infowindow
                 google.maps.event.addListener(marker, 'mouseover', function() {
