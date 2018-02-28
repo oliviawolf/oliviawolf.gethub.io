@@ -10,7 +10,7 @@
         var google;
         var document;
         var window;
-        var Email;
+
       
 
         /**
@@ -128,16 +128,9 @@
         //if a marker is clicked, ask user to input email
         google.maps.event.addListener(marker, 'click', function() {
             var email = window.prompt('please enter your email to recieve information about this restaurant');
-            document.location.href.open('mailto:'+ email + '?subject=\'Restaurant search info&\'body='+infoWContent);
-            
-            Email.send("oliviawolf6@gmail.com",
-                       email,
-                       "Details about"+place.name,
-                       infoWContent,
-                       "smtp.gmail.com",
-                       "oliviawolf6",
-                       "livi1998");
-                 });
+            document.write('mailto:'+ email + '?subject=' + encodeURIComponent('Restaurant search info')+'&body='+encodeURIComponent(infoWContent));
+        });
+           
                
               //if icon is hovered over, display the restaurant details in an infowindow
                 google.maps.event.addListener(marker, 'mouseover', function() {
@@ -149,6 +142,8 @@
                     infowindow.close(map, this);
                   });
            }
+            
+                                      
         /**
         * Creates a string of details about a location to fill in infowindow.
         * @param place
@@ -163,7 +158,7 @@
         var content= '<p>'+ place.name +'\n<p><\p>' + place.formatted_address ;
         content +=  '\n<p><\p>Phone number: '+ place.formatted_phone_number; 
         content += '\n<p><\p>'+ place.website;
-        content+='\n<p><\p>Rating: '+place.rating ;
+        content +='\n<p><\p>Rating: '+place.rating ;
                
         //check if the getDetails function returned any photos, if so add them to the content
         if(place.photos.length>0){
