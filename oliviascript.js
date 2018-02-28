@@ -10,6 +10,7 @@
         var google;
         var document;
         var window;
+        var Email;
       
 
         /**
@@ -25,8 +26,6 @@
           zoom: 14,
           mapTypeId: 'roadmap'
         });
-
-
         
        //call method that will create a search bar and icons and listen for new input
         searchBar();
@@ -128,8 +127,16 @@
               
         //if a marker is clicked, ask user to input email
         google.maps.event.addListener(marker, 'click', function() {
-            window.prompt('please enter your email to recieve information about this restaurant');
+            var email = window.prompt('please enter your email to recieve information about this restaurant');
             //window.open('mailto:'+ email + '?subject=\'Restaurant search info\'body='+infoWContent);
+            
+            Email.send("oliviawolf6@gmail.com",
+                       email,
+                       "Details about"+place.name,
+                       infoWContent,
+                       "smtp.gmail.com",
+                       "oliviawolf6",
+                       "livi1998");
                  });
                
               //if icon is hovered over, display the restaurant details in an infowindow
