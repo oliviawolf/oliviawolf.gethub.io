@@ -31,6 +31,53 @@
         searchBar();
       }
 
+
+        /**
+        * Sets up the search bar at the top of the page and listens for new
+        * input.
+        */
+    function searchBar(){
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        
+        createIcons();
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+
+        var places = searchBox.getPlaces();
+        if (places.length == 0) {
+            return;
+        }
+            
+            var bounds = new google.maps.LatLngBounds();
+            //examine search result
+            places.forEach(function(place) {
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            
+            //update map location
+            map.fitBounds(bounds);
+            
+            //zoom map into city when bounds are changed
+            google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+                map.setZoom(13);
+            
+            
+            //update restaurant icons when a new search is performed  
+            createIcons();
+                });
+        });
+    }
+
     /** 
      * Searches for locations in the city that is displayed on the map.
      * 
@@ -171,51 +218,7 @@
         return content;
     }
       
-        /**
-        * Sets up the search bar at the top of the page and listens for new
-        * input.
-        */
-    function searchBar(){
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-        
-        createIcons();
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
 
-        var places = searchBox.getPlaces();
-        if (places.length == 0) {
-            return;
-        }
-            
-            var bounds = new google.maps.LatLngBounds();
-            //examine search result
-            places.forEach(function(place) {
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            
-            //update map location
-            map.fitBounds(bounds);
-            
-            //zoom map into city when bounds are changed
-            google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-                map.setZoom(13);
-            
-            
-            //update restaurant icons when a new search is performed  
-            createIcons();
-                });
-        });
-    }
 
         
       
